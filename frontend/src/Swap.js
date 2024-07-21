@@ -4,7 +4,7 @@ import "./App.css";
 import SwapMultipleTokens from "./artifacts/contracts/SwapMultipleTokens.sol/SwapMultipleTokens.json";
 
 const swapContractAddress = "0x1689ce8849b2B1d6d59975fbd3652e9869Ec684d"; // Use the new deployed contract address
-const WMATIC_ADDRESS = "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"; // WMATIC address on Polygon
+
 const WETH_ADDRESS = "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"; // WETH address on Polygon
 
 const ERC20_ABI = [
