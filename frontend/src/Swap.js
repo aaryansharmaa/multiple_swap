@@ -4,7 +4,6 @@ import "./App.css";
 import SwapMultipleTokens from "./artifacts/contracts/SwapMultipleTokens.sol/SwapMultipleTokens.json";
 
 const swapContractAddress = "0x1689ce8849b2B1d6d59975fbd3652e9869Ec684d";
-s;
 const WETH_ADDRESS = "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619";
 
 const ERC20_ABI = [
