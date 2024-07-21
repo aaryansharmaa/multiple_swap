@@ -13,10 +13,10 @@ const ERC20_ABI = [
 ];
 
 function Swap() {
-  const [maticAmount, setMaticAmount] = useState("0.5");
-  const [wethAmount, setWethAmount] = useState("0.1");
-  const [amountOutMin, setAmountOutMin] = useState("50");
-  const [recipient, setRecipient] = useState("0xYourRecipientAddress");
+  const [maticAmount, setMaticAmount] = useState("1");
+  const [wethAmount, setWethAmount] = useState("0.0005");
+  const [amountOutMin, setAmountOutMin] = useState("1");
+  const [recipient, setRecipient] = useState("Your address");
   const [account, setAccount] = useState(null);
   const [provider, setProvider] = useState(null);
   const [signer, setSigner] = useState(null);
@@ -126,7 +126,7 @@ function Swap() {
   return (
     <div className="container">
       <div className="card">
-        <h1>Swap MATIC and WETH to USDC</h1>
+        <h1>Swap MATIC and ETH to USDC</h1>
         <button onClick={connectWallet} className="button">
           {account ? `Connected: ${account}` : "Connect Wallet"}
         </button>
@@ -140,7 +140,7 @@ function Swap() {
           />
         </div>
         <div className="inputGroup">
-          <label>WETH Amount:</label>
+          <label>ETH Amount:</label>
           <input
             type="text"
             value={wethAmount}
