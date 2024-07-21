@@ -40,7 +40,7 @@ contract SwapMultipleTokens {
 
         uint256 totalUsdcOut = 0;
 
-        // Wrap MATIC to WMATIC and swap WMATIC for USDC
+    
         if (amountMaticIn > 0) {
             IWMATIC(WMATIC_ADDRESS).deposit{value: amountMaticIn}();
             IWMATIC(WMATIC_ADDRESS).approve(address(swapRouter), amountMaticIn);
@@ -62,7 +62,6 @@ contract SwapMultipleTokens {
             totalUsdcOut += usdcOutMatic;
         }
 
-        // Swap WETH for USDC
         if (amountWethIn > 0) {
             require(IERC20(WETH_ADDRESS).transferFrom(msg.sender, address(this), amountWethIn), "WETH transfer failed");
             require(IERC20(WETH_ADDRESS).approve(address(swapRouter), amountWethIn), "WETH approve failed");

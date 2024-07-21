@@ -3,9 +3,9 @@ import { ethers } from "ethers";
 import "./App.css";
 import SwapMultipleTokens from "./artifacts/contracts/SwapMultipleTokens.sol/SwapMultipleTokens.json";
 
-const swapContractAddress = "0x1689ce8849b2B1d6d59975fbd3652e9869Ec684d"; // Use the new deployed contract address
-
-const WETH_ADDRESS = "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"; // WETH address on Polygon
+const swapContractAddress = "0x1689ce8849b2B1d6d59975fbd3652e9869Ec684d";
+s;
+const WETH_ADDRESS = "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619";
 
 const ERC20_ABI = [
   "function balanceOf(address owner) view returns (uint256)",
@@ -53,32 +53,28 @@ function Swap() {
     const wethContract = new ethers.Contract(WETH_ADDRESS, ERC20_ABI, signer);
 
     try {
-      const maticValue = ethers.utils.parseEther(maticAmount); // MATIC is the native currency
+      const maticValue = ethers.utils.parseEther(maticAmount);
       const wethValue = ethers.utils.parseUnits(wethAmount, 18);
-      const minOut = ethers.utils.parseUnits(amountOutMin, 6); // USDC typically has 6 decimals
-      const deadline = Math.floor(Date.now() / 1000) + 900; // 15 minutes from now
+      const minOut = ethers.utils.parseUnits(amountOutMin, 6);
+      const deadline = Math.floor(Date.now() / 1000) + 900;
 
-      // Log Balances
       const maticBalance = await provider.getBalance(account);
       console.log("MATIC Balance:", ethers.utils.formatEther(maticBalance));
 
       const wethBalance = await wethContract.balanceOf(account);
       console.log("ETH Balance:", ethers.utils.formatUnits(wethBalance, 18));
 
-      // Ensure sufficient balance
       if (ethers.utils.parseUnits(wethAmount, 18).gt(wethBalance)) {
         alert("Insufficient WETH balance");
         return;
       }
 
-      // Log Approval Status
       const allowance = await wethContract.allowance(
         account,
         swapContractAddress
       );
       console.log("ETH Allowance:", ethers.utils.formatUnits(allowance, 18));
 
-      // Approve WETH transfer if needed
       if (allowance.lt(wethValue)) {
         console.log("Approving WETH transfer...");
         const approveTx = await wethContract.approve(
@@ -91,7 +87,6 @@ function Swap() {
         console.log("WETH transfer already approved");
       }
 
-      // Display transaction details to the user
       setTransactionDetails({
         maticValue: ethers.utils.formatEther(maticValue),
         wethValue: ethers.utils.formatUnits(wethValue, 18),
@@ -99,7 +94,6 @@ function Swap() {
         recipient,
       });
 
-      // Execute the swap
       console.log("Executing swap...");
       const tx = await swapContract.swapMaticAndWethForUsdc(
         maticValue,
@@ -109,7 +103,7 @@ function Swap() {
         deadline,
         {
           value: maticValue,
-          gasLimit: ethers.utils.hexlify(500000), // Increase gas limit here
+          gasLimit: ethers.utils.hexlify(500000),
         }
       );
       await tx.wait();
