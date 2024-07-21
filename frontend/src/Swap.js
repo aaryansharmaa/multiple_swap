@@ -3,7 +3,8 @@ import { ethers } from "ethers";
 import "./App.css";
 import SwapMultipleTokens from "./artifacts/contracts/SwapMultipleTokens.sol/SwapMultipleTokens.json";
 
-const swapContractAddress = "0xa473d38d9f8E93f574c33c671537B4b2EB22a882"; // Use the new deployed contract address
+const swapContractAddress = "0x1689ce8849b2B1d6d59975fbd3652e9869Ec684d"; // Use the new deployed contract address
+const WMATIC_ADDRESS = "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"; // WMATIC address on Polygon
 const WETH_ADDRESS = "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"; // WETH address on Polygon
 
 const ERC20_ABI = [
@@ -13,10 +14,10 @@ const ERC20_ABI = [
 ];
 
 function Swap() {
-  const [maticAmount, setMaticAmount] = useState("1");
+  const [maticAmount, setMaticAmount] = useState("2");
   const [wethAmount, setWethAmount] = useState("0.0005");
   const [amountOutMin, setAmountOutMin] = useState("1");
-  const [recipient, setRecipient] = useState("Your address");
+  const [recipient, setRecipient] = useState("Your Address");
   const [account, setAccount] = useState(null);
   const [provider, setProvider] = useState(null);
   const [signer, setSigner] = useState(null);
@@ -62,7 +63,7 @@ function Swap() {
       console.log("MATIC Balance:", ethers.utils.formatEther(maticBalance));
 
       const wethBalance = await wethContract.balanceOf(account);
-      console.log("WETH Balance:", ethers.utils.formatUnits(wethBalance, 18));
+      console.log("ETH Balance:", ethers.utils.formatUnits(wethBalance, 18));
 
       // Ensure sufficient balance
       if (ethers.utils.parseUnits(wethAmount, 18).gt(wethBalance)) {
@@ -75,7 +76,7 @@ function Swap() {
         account,
         swapContractAddress
       );
-      console.log("WETH Allowance:", ethers.utils.formatUnits(allowance, 18));
+      console.log("ETH Allowance:", ethers.utils.formatUnits(allowance, 18));
 
       // Approve WETH transfer if needed
       if (allowance.lt(wethValue)) {
@@ -94,7 +95,7 @@ function Swap() {
       setTransactionDetails({
         maticValue: ethers.utils.formatEther(maticValue),
         wethValue: ethers.utils.formatUnits(wethValue, 18),
-        minOut,
+        minOut: ethers.utils.formatUnits(minOut, 6),
         recipient,
       });
 
@@ -108,7 +109,7 @@ function Swap() {
         deadline,
         {
           value: maticValue,
-          gasLimit: ethers.utils.hexlify(500000),
+          gasLimit: ethers.utils.hexlify(500000), // Increase gas limit here
         }
       );
       await tx.wait();
@@ -174,7 +175,7 @@ function Swap() {
             <h3>Transaction Details</h3>
             <p>MATIC Amount: {transactionDetails.maticValue}</p>
             <p>WETH Amount: {transactionDetails.wethValue}</p>
-            <p>Minimum USDC Amount Out: {amountOutMin}</p>
+            <p>Minimum USDC Amount Out: {transactionDetails.minOut}</p>
             <p>Recipient: {transactionDetails.recipient}</p>
           </div>
         )}

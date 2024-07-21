@@ -5,12 +5,15 @@ async function main() {
   const SwapMultipleTokens = await ethers.getContractFactory(
     "SwapMultipleTokens"
   );
+
   const swapRouterAddress = "0xE592427A0AEce92De3Edee1F18E0157C05861564"; // Uniswap V3 Router address on Polygon
+  const wmaticAddress = "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"; // WMATIC address on Polygon
   const wethAddress = "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"; // WETH address on Polygon
-  const usdcAddress = "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"; // USDC address on Polygon
+  const usdcAddress = "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"; // USDC address on Polygon
 
   const swapMultipleTokens = await SwapMultipleTokens.deploy(
     swapRouterAddress,
+    wmaticAddress,
     wethAddress,
     usdcAddress
   );
